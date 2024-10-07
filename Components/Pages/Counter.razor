@@ -7,13 +7,82 @@
 
 <p role="status">Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="IncrementCount"> Click me</button>
 
+<div class="m-4">
+    <!--Input event-->
+    <input type="text" @oninput="HandleInput" />
+    <p>@text </p>
+</div>
+
+<!--Mouse event-->
+<div style="border:1px solid red" @onmouseover="MouseOver">
+
+    <p>@divText </p>
+
+</div>
+
+<!--Keyboard Event -->
+<div class="m-6 text-red">
+    <p>I am watching the Key you press # KeyLogging</p>
+    <input type="text" @onkeydown="handleKeyDown" />
+    <p>@keyDown </p>
+
+</div>
+
+<!--onFocus Event -->
+<div class="m-5 text-red">
+    <p>Do something in the box below</p>
+    <input type="text" @onfocus="HandleFocus" @onblur="HandleBlur" />
+
+    <p>@onFocus </p>
+
+</div>
+
+
+<!--Define Methods here -->
 @code {
-    private int currentCount = 0;
 
+    private int currentCount = 0;
+    string text = "";
+    string divText = "";
+    string keyDown = "";
+    string onFocus = "";
+
+
+    [Parameter]
+    public int IncrementAmount { get; set; } = 1;
+
+    // Method for incrementing
     private void IncrementCount()
     {
-        currentCount++;
+        currentCount += IncrementAmount; // or currentCount++;
+
+    }
+    //HandleInput Method
+    private void HandleInput(ChangeEventArgs e)
+    {
+        text = (string)e.Value!;
+        //throw new NotImplementedException();
+    }
+
+    //MouseOver Method
+    private void MouseOver(MouseEventArgs e)
+    {
+        divText = "Stop moving Mouse over me, haha";
+    }
+
+    // HandlekeyDown Method
+    private void handleKeyDown(KeyboardEventArgs e)
+    {
+        keyDown = e.Key; //gets value of the key pressed
+    }
+    private void HandleFocus(FocusEventArgs e)
+    {
+        onFocus = "You are typing something... ";
+    }
+    private void HandleBlur(FocusEventArgs e)
+    {
+        onFocus = "You are not typing. You have clicked away";
     }
 }
